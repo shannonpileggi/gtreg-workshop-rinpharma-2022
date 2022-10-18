@@ -1,0 +1,77 @@
+---
+title: "Introducing {gtreg}: an R package to produce regulatory tables for clinical research"
+subtitle: "R in Pharma 2022 Workshop"
+editor: source
+---
+
+<!-- https://github.com/rstudio-conf-2022/teach-ds -->
+
+------------------------------------------------------------------------
+
+🗓 November 2, 2022 \| 9:00am - 12:00pm EDT
+
+🏨 Virtual
+
+💥 **FREE** [workshop registration](https://www.eventbrite.com/e/introducing-gtreg-tickets-429262073417) 
+
+------------------------------------------------------------------------
+
+# Overview
+
+In this workshop you will learn how to make standard regulatory tables and table
+shells for clinical research using the {gtreg} package in R. This includes: 
+adverse event tables, summary tables with multi-line statistics for continuous variables,
+and raw data listings tables with grouped data. Table elements like headers, 
+footers, or captions are customizable using {gtreg} column selectors, and the 
+{gt} package can be used to implement final styling tweaks on your table. Lastly, 
+{gtreg} tables are easily output to various formats, including HTML, PDF, RTF, Word, and Excel.
+
+## Learning objectives
+
+Build and customize tables often required for clinical reporting.
+
+## Is this course for me?
+
+If your answer to any of the following questions is "yes", then this is the right workshop for you.
+
+-   Do you make adverse event tables or descriptive statistics tables in R? Or table shells for either?
+
+-   Do you want your workflow to be reproducible?
+
+-   Are you often frustrated with the immense amount of code required to create great-looking tables in R?
+
+The workshop is designed for those with some experience in R. 
+It will be assumed that participants can perform basic data manipulation.
+Experience with the {tidyverse} and the `%>%` operator is a plus, but not required.
+
+## Prework
+
+Before attending the workshop please have the following installed and configured on your machine.
+
+-   Recent version of **R** 
+
+-   Recent version of **RStudio**
+
+-   Most recent release of the [**gtreg**](https://shannonpileggi.github.io/gtreg/) and other packages used in workshop.
+
+    ```r
+    instll_pkgs <- c("gtreg", "gtsummary", "tidyverse", "labelled", "usethis")
+    install.packages(instll_pkgs)
+    ```
+-   Ensure you can knit R markdown documents
+    - Open RStudio and create a new Rmarkdown document
+    - Save the document and check you are able to knit it.
+
+ 
+# Instructors
+
+![](images/shannon_circle.png){style="float:left;padding: 0 10px 0 0;" fig-alt="Headshot of Shannon Pileggi" width="150"}
+
+[**Shannon Pileggi**](https://www.pipinghotdata.com/) (she/her) is a Lead Data Scientist at The Prostate Cancer Clinical Trials Consortium, a frequent blogger, and a member of the R-Ladies Global team. She enjoys automating data wrangling and data outputs, and making both data insights and learning new material digestible.
+
+<br>
+<br>
+
+![](images/dan-modified.png){style="float:left;padding: 0 10px 0 0;" fig-alt="Headshot of Daniel D. Sjoberg" width="150"}
+
+[**Daniel D. Sjoberg**](https://www.danieldsjoberg.com/) (he/him) is a Senior Biostatistician at Memorial Sloan Kettering Cancer Center in New York City and a DrPH candidate in Biostatistics at Columbia University. His research interests include adaptive methods in clinical trials, precision medicine, and predictive modeling. He also enjoys R package development, creating many packages available on [CRAN](https://cran.r-project.org/web/packages/), [R-Universe](https://ddsjoberg.r-universe.dev/ui#packages), [GitHub](https://github.com/ddsjoberg), and internally at MSKCC. Daniel is the the winner of the 2021 American Statistical Association (ASA) Innovation in Statistical Programming and Analytics award.
