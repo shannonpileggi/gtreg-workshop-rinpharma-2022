@@ -9,32 +9,55 @@ format: html
 library(tidyverse)
 library(gtsummary)
 library(gtreg)
+library(labelled)
 library(admiral)       # for subject level analysis data set     
 library(admiral.test)  # for ae data
 theme_gtsummary_compact()
 ```
+
+
+to discuss: 
+
+ * Should initial data prep be an exercise or provided?
+
+ * include 3 arms or 2? choose two arms
+ 
+ * keep all attributions but reduce data
+
+ * change capitalization?
+
+ * mutate removes variable labels - any work arounds or use as an exercise to 
+ illustrate how to implement?
+
+ * STDM vs ADaM
 
 # The Data
 
 For these exercises we will be using STDM and ADaM datasets from the [{admiral.test}](https://github.com/pharmaverse/admiral.test) and [{admiral}](https://pharmaverse.github.io/admiral/index.html) and packages.
 
 
-# Exercise 1
-
-Should this be an exercise or provided?
-
 First, prepare a subject level data set named `subjects` from the `admiral_adsl` data set
 with only the variables `USUBJID`, `ACTARM`, `AGE`, `SEX`, `RACE` and subjects who screen failed removed.
 
 ```{r}
 subjects <- admiral_adsl |> 
+  filter(ACTARM != "Screen Failure" & ACTARM %in% c("Placebo", "Xanomeline High Dose") ) |> 
   select(USUBJID, ACTARM, AGE, SEX, RACE) |> 
-  # mutate(across(RACE, str_to_title)) |> 
-  filter(ACTARM != "Screen Failure")
+  mutate(across(RACE, str_to_title)) |> 
+  mutate(
+    # convert treatment arm and race to factors for table displays in a specific order
+    ACTARM = fct_relevel(ACTARM, "Placebo", "Xanomeline High Dose"),
+    RACE = fct_infreq(RACE)
+  ) |> 
+  set_variable_labels(
+    ACTARM = "Actual treatment arm",
+    RACE = "Race"
+  )
 ```
 
 Next, prepare an adverse event data set named `ae` from `admiral_ae` with the 
 only the variables `USUBJID`, `AESOC`, `AEDECOD`, `AESEV`, `AESER`, `AEREL`, `AESTDTC`.
+
 Join actual treatment arm (`ACTARM`) from the `subjects` data frame to the `ae` data.
 
 
@@ -43,16 +66,35 @@ Join actual treatment arm (`ACTARM`) from the `subjects` data frame to the `ae` 
 ae <- admiral_ae |> 
   select(USUBJID, AESOC, AEDECOD, AESEV, AESER, AEREL, AESTDTC) |> 
   left_join(subjects |> select(USUBJID, ACTARM), by = "USUBJID") |> 
-  filter(AEREL == "PROBABLE")
-  # include 3 arms?
-  # change capitalization?
+  # removing subjects  with missing treatment arm as these were the low dose 
+  # subjects excluded from the subjects data set
+  drop_na(ACTARM) |> 
+  mutate(
+    AESEV = fct_relevel(AESEV, "MILD", "MODERATE", "SEVERE"),
+    # converting treatment arm to factor
+    # note that treatment arm must be stored the same way in the two data sets
+    ACTARM = fct_relevel(ACTARM, "Placebo", "Xanomeline High Dose"),
+    year = str_sub(AESTDTC, start = 1, end = 4) |> as.numeric()
+   ) |>
+  mutate(across(c(AESOC, AEDECOD, AESEV, AEREL), str_to_title)) |> 
+  # for brevity of output, only look at AEs from a single year and in
+  # an disorder SOC category 
+  filter(str_detect(AESOC, "Disorders")) |>
+  filter(year == 2014) |> 
+  labelled::set_variable_labels(
+     AESOC    = "Primary System Organ Class", 
+     AEDECOD  = "Dictionary-Derived Term ", 
+     AESEV    = "Severity/Intensity",
+     AEREL    = "Causality" 
+  )
 ```
 
-# Exercise 2
+
+# Exercise 1
 
 Create an adverse event table saved as `t1` that summarizes adverse events 
-by treatment arm and severity using; be sure that the correct subject denominator
-is correct.
+by treatment arm and severity using; be sure that the subject denominator
+is correct by supplying `id_df`.
 
 ```{r}
 t1 <- ae |>
@@ -65,6 +107,96 @@ t1 <- ae |>
     strata = ACTARM
   ) |> 
   bold_labels()
+
+t1
 ```
+
+# Exercise 3
+
+Create `t1_modify` that modifies `t1` such that:
+
+1. An overall column is added to each treatment arm.
+
+2. The overall column is labelled as `Total`.
+
+3. The number of subjects is placed on a new line after treatment arm.
+
+4. The table caption states `2014 Disorders Adverse Events`.
+
+
+```{r}
+t1_modify <- t1 |> 
+  add_overall(across = 'by') |> 
+  modify_header(all_overall_cols() ~ "**Total**") |>
+  modify_spanning_header(all_ae_cols(TRUE, TRUE) ~ "**{strata}**  \nN = {n}") %>%
+  modify_caption("2014 Disorders Adverse Events")  
+
+t1_modify
+```
+
+# Exercise 4
+
+Create `t2` from `subjects`.
+
+```{r}
+t2 <- subjects |> 
+  select(-USUBJID) %>% 
+  mutate(RACE = fct_infreq(RACE)) |> 
+  tbl_reg_summary(
+    by = ACTARM
+  ) |> 
+  add_overall(last = TRUE) |> 
+  bold_labels() |> 
+  modify_header(
+    list(
+      all_stat_cols(stat_0 = FALSE) ~ "**{level}**  \nN = {n}",
+      # stat_1 ~ "**{level}**  \nN = {n}",
+      # stat_2 ~ "**{level}**  \nN = {n}",
+      # stat_3 ~ "**{level}**  \nN = {n}",
+      stat_0 ~ "**Overall**  \nN = {N}"
+    ))
+```
+
+# Exercise 5
+
+
+```{r}
+ae |> 
+  filter(AESEV == "SEVERE" & AEREL == "PROBABLE") |> 
+  select(USUBJID, AESOC, AEDECOD, AESER) |> 
+  arrange(AESOC, AEDECOD) |> 
+  tbl_listing(
+    group_by = AESOC
+  ) |> 
+  bold_labels() 
+```
+
+# Exercise 6
+
+Create `t2_shell`, a table shell from the `t2` table.
+
+```{r}
+t2_shell <- subjects |> 
+  select(-USUBJID) %>% 
+  mutate(RACE = fct_infreq(RACE)) |> 
+  tbl_reg_summary(
+    digits = everything() ~  style_xxx,
+    by = ACTARM
+  ) |> 
+  add_overall(last = TRUE) |> 
+  bold_labels() |> 
+  modify_header(
+    list(
+      stat_1 ~ "**{level}**  \nN = xx",
+      stat_2 ~ "**{level}**  \nN = xx",
+      stat_3 ~ "**{level}**  \nN = xx",
+      stat_0 ~ "**Overall**  \nN = xx"
+    ))
+```
+
+
+# Exercise 7
+
+Export `t2_shell` to output of your choice.
 
 
