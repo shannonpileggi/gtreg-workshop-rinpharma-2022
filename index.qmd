@@ -4,8 +4,6 @@ subtitle: "R in Pharma 2022 Workshop"
 editor: source
 ---
 
-<!-- https://github.com/rstudio-conf-2022/teach-ds -->
-
 ------------------------------------------------------------------------
 
 🗓 November 2, 2022 \| 9:00am - 12:00pm EDT
