@@ -15,9 +15,8 @@ website:
   repo-url: https://shannonpileggi.github.io/gtreg-workshop-rinpharma-2022
   repo-actions: [edit, issue]
 
-  opengraph: true
   twitter-card:
-    creator: "@statistishdan"
+    creator: "@PipingHotData"
     image: "/images/gtreg-logo.png"
 
   page-footer:
