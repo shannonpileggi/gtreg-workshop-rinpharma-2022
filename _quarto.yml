@@ -1,0 +1,54 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+    - "!exercises/exercises.Rmd"
+    - "!slides/[0-9]*.qmd"
+
+website:
+  page-navigation: true
+  title: "Regulatory tables for clinical research with {gtreg}"
+  description: "Homepage for the R in Pharma 2022 Workshop"
+  site-url: "https://shannonpileggi.github.io/gtreg-workshop-rinpharma-2022/"
+  favicon: "images/gtreg-logo.png"
+
+  repo-url: https://shannonpileggi.github.io/gtreg-workshop-rinpharma-2022
+  repo-actions: [edit, issue]
+
+  opengraph: true
+  twitter-card:
+    creator: "@statistishdan"
+    image: "/images/gtreg-logo.png"
+
+  page-footer:
+    left: "This page is built with ❤️ and [Quarto](https://quarto.org/). Inspired by [@minebocek](https://twitter.com/minebocek) and [@statistishdan](https://github.com/ddsjoberg/clinical-reporting-gtsummary-rmed)."
+    right: "&copy; Copyright 2022, Shannon Pileggi"
+    background: "#708090"
+
+  sidebar:
+    background: "#708090"
+    logo: "images/gtreg-logo.png"
+    pinned: true
+    align: center
+    tools:
+      - icon: github
+        href: https://shannonpileggi.github.io/gtreg-workshop-rinpharma-2022
+        text: GitHub
+    style: docked
+    contents:
+     - href: index.qmd
+       text: Home
+     - href: materials.qmd
+     - href: license.qmd
+
+format:
+  html:
+    theme: [cosmo, theme.scss]
+    toc: true
+    code-copy: true
+    code-overflow: scroll
+    mainfont: "Atkinson Hyperlegible"
+    highlight-style: a11y
+
+editor: source
+
