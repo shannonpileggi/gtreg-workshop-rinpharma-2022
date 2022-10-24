@@ -12,7 +12,7 @@ website:
   site-url: "https://shannonpileggi.github.io/gtreg-workshop-rinpharma-2022/"
   favicon: "images/gtreg-logo.png"
 
-  repo-url: https://shannonpileggi.github.io/gtreg-workshop-rinpharma-2022
+  repo-url: https://shannonpileggi/gtreg-workshop-rinpharma-2022
   repo-actions: [edit, issue]
 
   twitter-card:
@@ -31,7 +31,7 @@ website:
     align: center
     tools:
       - icon: github
-        href: https://shannonpileggi.github.io/gtreg-workshop-rinpharma-2022
+        href: https://shannonpileggi/gtreg-workshop-rinpharma-2022
         text: GitHub
     style: docked
     contents:
