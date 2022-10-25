@@ -1,6 +1,5 @@
 project:
   type: website
-  output-dir: docs
   render:
     - "*.qmd"
     - "!exercises/exercises.Rmd"
@@ -16,6 +15,7 @@ website:
   repo-url: https://shannonpileggi/gtreg-workshop-rinpharma-2022
   repo-actions: [edit, issue]
 
+  open-graph: true
   twitter-card:
     creator: "@PipingHotData"
     image: "/images/gtreg-logo.png"
