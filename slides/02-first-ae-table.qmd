@@ -1,0 +1,392 @@
+
+# First adverse event tables
+
+## Data
+
+::: panel-tabset
+
+### Adverse Events
+
+`df_adverse_events`
+
+* 10 unique subjects
+
+* multiple rows per subject
+
+
+```{r}
+#| echo: false
+#| eval: true
+head(df_adverse_events) |> gt::gt()
+```
+
+
+###  Patients
+
+`df_patient_characteristics`
+
+* 100 unique subjects
+
+* 1 row per subject
+
+
+```{r}
+#| echo: false
+#| eval: true
+head(df_patient_characteristics) |> gt::gt()
+```
+
+
+:::
+
+
+
+## Variable labels 
+
+* A variable label is an attribute of a variable in a data frame.
+
+* Where applicable, _variable labels_ (not _variable names_) are printed 
+in {gtsummary} and {gtreg} tables.
+
+* The example data in {gtreg} comes with variable labels; you can
+also create your own via [`labelled::set_variable_labels()`](https://larmarange.github.io/labelled/reference/var_label.html).
+
+
+::: columns
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| eval: false
+str(df_patient_characteristics)
+```
+
+![](images/df_patient_characteristics_str_hl.PNG)
+
+
+:::
+
+
+::: {.column width="50%"}
+
+
+```{r}
+#| echo: true
+#| eval: false
+View(df_patient_characteristics)
+```
+
+![](images/df_patient_characterstics.PNG)
+
+
+:::
+
+:::
+
+
+
+## First adverse event tables
+
+![](images/gtreg_overview_first.svg)
+
+## tbl_ae_count()
+
+-   Count *all* AEs (not by maximum grade).
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+df_adverse_events |> 
+  tbl_ae_count(
+    ae = adverse_event,
+    soc = system_organ_class, 
+    by = grade
+  ) 
+```
+
+### Table
+
+```{r}
+#| eval: true
+#| echo: false
+df_adverse_events |> 
+  tbl_ae_count(
+    ae = adverse_event,
+    soc = system_organ_class, 
+    by = grade
+  ) 
+```
+
+### Data
+
+```{r}
+#| eval: true
+#| echo: false
+df_adverse_events |> 
+  select(adverse_event,system_organ_class, grade) |> 
+  slice(1:10) |> 
+  gt::gt()
+```
+:::
+
+## tbl_ae()
+
+-   Count AEs per subject by maximum grade.
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "2,3"
+df_adverse_events |> 
+  tbl_ae(
+    id = patient_id,
+    ae = adverse_event,
+    soc = system_organ_class, 
+    by = grade
+  ) 
+```
+
+### Table
+
+```{r}
+#| echo: false
+#| eval: true
+df_adverse_events |> 
+  tbl_ae(
+    id = patient_id,
+    ae = adverse_event,
+    soc = system_organ_class, 
+    by = grade
+  ) 
+```
+
+### Data
+
+```{r}
+#| echo: false
+#| eval: true
+df_adverse_events |> 
+ select(patient_id, adverse_event,system_organ_class, grade) |> 
+ slice(1:10) |> 
+ gt::gt() 
+```
+:::
+
+## tbl_ae()
+
+-   Count AEs per subject by maximum grade.
+
+-   Supply `id_df` to achieve subject denominator.
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "2,4"
+df_adverse_events |> 
+  tbl_ae(
+    id = patient_id,
+    id_df = df_patient_characteristics,
+    ae = adverse_event,
+    soc = system_organ_class, 
+    by = grade
+  ) 
+```
+
+### Table
+
+```{r}
+#| echo: false
+#| eval: true
+df_adverse_events |> 
+  tbl_ae(
+    id = patient_id,
+    id_df = df_patient_characteristics,
+    ae = adverse_event,
+    soc = system_organ_class, 
+    by = grade
+  ) 
+```
+
+### Data
+
+::: columns
+::: {.column width="65%"}
+`df_adverse_events`
+
+```{r}
+#| echo: false
+df_adverse_events |> 
+  select(patient_id, adverse_event, system_organ_class, grade) |> 
+  slice(1:5) |> 
+  gt::gt()
+```
+:::
+
+::: {.column width="35%"}
+`df_patient_characteristics`
+
+```{r}
+#| echo: false
+df_patient_characteristics |> 
+  select(patient_id, trt) |> 
+  slice(1:5) |> 
+  gt::gt() 
+```
+:::
+:::
+:::
+
+## tbl_ae() with strata
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "2,5"
+df_adverse_events |> 
+  tbl_ae(
+    id = patient_id,
+    id_df = df_patient_characteristics,
+    strata = trt,
+    ae = adverse_event,
+    soc = system_organ_class, 
+    by = grade
+  ) 
+```
+
+### Table
+
+```{r}
+#| echo: false
+#| eval: true
+df_adverse_events |> 
+  tbl_ae(
+    id = patient_id,
+    id_df = df_patient_characteristics,
+    strata = trt,
+    ae = adverse_event,
+    soc = system_organ_class, 
+    by = grade
+  ) 
+```
+
+### Data
+
+::: columns
+::: {.column width="65%"}
+`df_adverse_events`
+
+```{r}
+#| echo: false
+df_adverse_events |> 
+  select(patient_id, trt, adverse_event, system_organ_class, grade) |> 
+  slice(1:5) |> 
+  gt::gt()
+```
+:::
+
+::: {.column width="35%"}
+`df_patient_characteristics`
+
+```{r}
+#| echo: false
+df_patient_characteristics |> 
+  select(patient_id, trt) |> 
+  slice(1:5) |> 
+  gt::gt() 
+```
+:::
+:::
+:::
+
+
+## tbl_ae_focus()
+
+-   Count dichotomous AE attributes via `include`.
+
+-   Supply `id_df` to achieve subject denominator.
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "2,7"
+df_adverse_events |> 
+  tbl_ae_focus(
+    id = patient_id,
+    id_df = df_patient_characteristics,
+    ae = adverse_event,
+    soc = system_organ_class, 
+    include = c(any_complication, grade3_complication)
+  ) 
+```
+
+### Table
+
+```{r}
+#| echo: false
+#| eval: true
+df_adverse_events |> 
+  tbl_ae_focus(
+    id = patient_id,
+    id_df = df_patient_characteristics,
+    ae = adverse_event,
+    soc = system_organ_class, 
+    include = c(any_complication, grade3_complication)
+  ) 
+```
+
+### Data
+
+::: columns
+::: {.column width="65%"}
+`df_adverse_events`
+
+```{r}
+#| echo: false
+df_adverse_events |> 
+  select(patient_id, adverse_event, system_organ_class, any_complication, grade3_complication) |> 
+  slice(1:5) |> 
+  gt::gt()
+```
+:::
+
+::: {.column width="35%"}
+`df_patient_characteristics`
+
+```{r}
+#| echo: false
+df_patient_characteristics |> 
+  select(patient_id, trt) |> 
+  slice(1:5) |> 
+  gt::gt() 
+```
+:::
+:::
+:::
+
+
+
+## Exercise 1
+
+Instructions
+
+```{r}
+#| echo: false
+#| cache: false
+countdown(minutes = 15, font_size = "1.5em")
+```
+

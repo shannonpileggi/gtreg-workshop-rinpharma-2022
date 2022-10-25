@@ -1,0 +1,157 @@
+# Modified adverse event tables
+
+## Modified adverse event tables
+
+![](images/gtreg_overview_modified.svg)
+
+
+
+## tbl_ae() with add_overall()
+
+See [documentation](https://shannonpileggi.github.io/gtreg/reference/add_overall_tbl_ae.html) for more `add_overall()` functionality.
+
+::: panel-tabset
+
+### Code
+
+```{r, tbl-ae-add-overall}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "2,10,11"
+df_adverse_events |> 
+  tbl_ae(
+    id = patient_id,
+    id_df = df_patient_characteristics,
+    strata = trt,
+    ae = adverse_event,
+    soc = system_organ_class, 
+    by = grade
+  ) |> 
+  add_overall(across = 'by') |>
+  bold_labels()
+```
+
+### Table
+
+```{r}
+#| echo: false
+#| eval: true
+<<tbl-ae-add-overall>>
+```
+
+### Data
+
+::: columns
+::: {.column width="65%"}
+`df_adverse_events`
+
+```{r}
+#| echo: false
+df_adverse_events |> 
+  select(patient_id, trt, adverse_event, system_organ_class, grade) |> 
+  slice(1:5) |> 
+  gt::gt()
+```
+:::
+
+::: {.column width="35%"}
+`df_patient_characteristics`
+
+```{r}
+#| echo: false
+df_patient_characteristics |> 
+  select(patient_id, trt) |> 
+  slice(1:5) |> 
+  gt::gt() 
+```
+:::
+:::
+:::
+
+## Modifying headers
+
+<https://shannonpileggi.github.io/gtreg/articles/table-modifications.html>
+
+Use `modify_header()` and `modify_spanning_header()` with `all_` column selectors.
+
+
+![](images/gtreg-modify.gif)
+
+
+## tbl_ae() with modified headers
+
+::: panel-tabset
+
+### Code
+
+```{r, tbl-ae-modify-header}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "12-17"
+#| 
+df_adverse_events |> 
+  tbl_ae(
+    id = patient_id,
+    id_df = df_patient_characteristics,
+    strata = trt,
+    ae = adverse_event,
+    soc = system_organ_class, 
+    by = grade
+  ) |> 
+ add_overall(across = 'by') |> 
+ bold_labels() |> 
+ modify_header(
+    all_ae_cols() ~ "**Grade {by}**"
+    ) %>%
+  modify_spanning_header(
+     all_ae_cols(TRUE, TRUE) ~ "**{strata}**  \nN = {n}"
+    )
+```
+
+### Table
+
+```{r}
+#| echo: false
+#| eval: true
+<<tbl-ae-modify-header>>
+```
+
+### Data
+
+::: columns
+::: {.column width="65%"}
+`df_adverse_events`
+
+```{r}
+#| echo: false
+df_adverse_events |> 
+  select(patient_id, trt, adverse_event, system_organ_class, grade) |> 
+  slice(1:5) |> 
+  gt::gt()
+```
+:::
+
+::: {.column width="35%"}
+`df_patient_characteristics`
+
+```{r}
+#| echo: false
+df_patient_characteristics |> 
+  select(patient_id, trt) |> 
+  slice(1:5) |> 
+  gt::gt() 
+```
+:::
+:::
+:::
+
+
+## Exercise 2
+
+Instructions
+
+```{r}
+#| echo: false
+#| cache: false
+countdown(minutes = 15, font_size = "1.5em")
+```

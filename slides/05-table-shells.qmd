@@ -1,0 +1,31 @@
+# Table shells
+
+## Table shells
+
+![](images/gtreg_overview_shell.svg)
+
+## Strategy
+
+Table shells are tables with generic `xx` place holders for numeric values.
+
+<https://shannonpileggi.github.io/gtreg/articles/table-shells.html>
+
+Table shells can be generated for any `tbl_` by:
+
+1. Create dummy data or use your own data.
+
+2. Pass the data to your function of choice.
+
+3. Overwrite the statistic(s) shown to a fixed character string by implementing the
+`style_xxx()` function in the `digits` argument.
+
+
+## Exercise 5
+
+Instructions
+
+```{r}
+#| echo: false
+#| cache: false
+countdown(minutes = 15, font_size = "1.5em")
+```

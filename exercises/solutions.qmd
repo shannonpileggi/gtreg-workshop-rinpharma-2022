@@ -97,8 +97,7 @@ t1 <- dat_ae %>%
     soc = AESOC,
     by = AESEV,
     strata = ACTARM
-  ) %>% 
-  bold_labels()
+  ) 
 
 t1
 ```
@@ -107,17 +106,20 @@ t1
 
 Create `t1_modify` that modifies `t1` such that:
 
-1. Add an overall column to each treatment arm.
+1. Bold the system organ class rows.
 
-2. Label the overall column as `Total`.
+2. Add an overall column to each treatment arm.
 
-3. In the header, place the number of subjects on a new line in each treatment arm. 
+3. Label the overall column as `Total`.
 
-4. Add a table caption that states `2014 Disorders Adverse Events` (displays at the top of the table).
+4. In the header, place the number of subjects on a new line in each treatment arm. 
+
+5. Add a table caption that states `2014 Disorders Adverse Events` (displays at the top of the table).
 
 
 ```{r ae-modify}
 t1_modify <- t1 %>% 
+  bold_labels() %>%
   add_overall(across = 'by') %>% 
   modify_header(all_overall_cols() ~ "**Total**") %>%
   modify_spanning_header(all_ae_cols(TRUE, TRUE) ~ "**{strata}**  \nN = {n}") %>%

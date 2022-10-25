@@ -1,0 +1,194 @@
+# Other tabling functions
+
+## Other tabling functions
+
+![](images/gtreg_overview_other.svg)
+
+## tbl_reg_summary()
+
+Create summary tables with standard regulatory formatting.
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+ df_patient_characteristics |> 
+  tbl_reg_summary(
+    by = trt, 
+    include = c(marker, status)
+    ) |> 
+  bold_labels()
+```
+
+### Table
+
+```{r}
+#| echo: false
+#| eval: true
+ df_patient_characteristics |> 
+  tbl_reg_summary(
+    by = trt, 
+    include = c(marker, status)
+    )|> 
+  bold_labels()
+```
+
+### Data
+
+` df_patient_characteristics`
+
+```{r}
+#| echo: false
+df_patient_characteristics |> 
+  select(patient_id, trt, marker, status) |> 
+  slice(1:5) |> 
+  gt::gt() 
+```
+:::
+
+
+## Exercise 3
+
+Instructions
+
+```{r}
+#| echo: false
+#| cache: false
+countdown(minutes = 15, font_size = "1.5em")
+```
+
+
+## tbl_listing()
+
+A fancy 💅 way to print grouped data.
+
+::: panel-tabset
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "5-7"
+df_adverse_events |> 
+  head(n = 10) |> 
+  select(system_organ_class, adverse_event, grade, drug_attribution, patient_id) |> 
+  arrange(adverse_event, desc(grade)) |> 
+  tbl_listing(
+    group_by = system_organ_class
+    ) |> 
+  bold_labels()
+```
+
+### Table
+
+```{r}
+#| echo: false
+#| eval: true
+df_adverse_events |> 
+  head(n = 10) |> 
+  select(system_organ_class, adverse_event, grade, drug_attribution, patient_id) |> 
+  arrange(adverse_event, desc(grade)) |> 
+  tbl_listing(
+    group_by = system_organ_class
+    ) |> 
+  bold_labels()
+```
+
+### Data
+
+`df_adverse_events`
+
+```{r}
+#| echo: false
+df_adverse_events |> 
+  head(n = 10) |> 
+  select(system_organ_class, adverse_event, grade, drug_attribution, patient_id) |> 
+  arrange(adverse_event, desc(grade)) |> 
+  gt::gt()
+```
+
+:::
+
+## tbl_listing() extensions
+
+Remember this table?
+
+```{r}
+#| echo: false
+#| eval: true
+dat <- df_adverse_events |> 
+  select(patient_id, system_organ_class, adverse_event, grade) |> 
+  mutate(ae_label = case_when(
+    adverse_event == "Anaemia" ~ "Term 1",
+    adverse_event == "Increased tendency to bruise" ~ "Term 2",
+    adverse_event == "Thrombocytopenia" ~ "Term 3"
+  )) |> 
+  slice(1:5)
+```
+
+
+::: panel-tabset
+
+### Table
+
+```{r}
+#| echo: false
+#| eval: true
+dat |>
+  tbl_listing(
+    group_by = ae_label
+  ) |> 
+  bold_labels() |> 
+  as_gt() |> 
+  gt::tab_style(
+    style = list(
+      cell_fill(color = "#FFFBC8")
+      ),
+    locations = cells_body(rows = c(2, 4, 8))
+  )
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "6-7"
+dat |>
+  tbl_listing(
+    group_by = ae_label
+  ) |> 
+  bold_labels() |> 
+  as_gt() |> 
+  gt::tab_style(
+    style = list(
+      cell_fill(color = "#FFFBC8")
+      ),
+    locations = cells_body(rows = c(2, 4, 8))
+  )
+```
+
+### Data
+
+```{r}
+#| echo: false
+#| eval: true
+dat |>
+  gt::gt() 
+```
+
+:::
+
+
+## Exercise 4
+
+Instructions
+
+```{r}
+#| echo: false
+#| cache: false
+countdown(minutes = 15, font_size = "1.5em")
+```

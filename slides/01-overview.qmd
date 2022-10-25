@@ -1,0 +1,123 @@
+# Overview
+
+## gtreg
+
+::: {.columns .v-center-container}
+::: {.column width="40%"}
+![](images/gtreg_hex_hires.png)
+:::
+
+::: {.column width="60%"}
+<https://shannonpileggi.github.io/gtreg/>
+<br>
+
+&nbsp;&nbsp;[{gtreg}](https://shannonpileggi.github.io/gtreg/) is built on
+
+&nbsp;&nbsp;&nbsp;&nbsp; [{gtsummary}](https://www.danieldsjoberg.com/gtsummary/) is built on
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [{gt}](https://gt.rstudio.com/)
+:::
+:::
+
+## {gtreg} overview
+
+![](images/gtreg_overview.svg)
+
+::: notes
+image from google slides
+
+https://docs.google.com/presentation/d/1Wf8Wdc28UmtSHqwu3-pYg7ZaW52T5l_hjW0roxyMI1k/edit?u
+sp=sharing
+:::
+
+# About adverse events
+
+## Adverse events
+
+```{r, echo=FALSE}
+df_adverse_events |> 
+  select(patient_id:drug_attribution) |> 
+  slice(1:5) |> 
+  gt::gt()
+```
+
+-   An adverse event (AE) is a medical issue that occurs during the course of treatment or observation.
+
+-   AEs are classified according to a [hierarchy](https://www.meddra.org/how-to-use/basics/hierarchy), and we typically report lower level terms within a system organ class.
+
+-   AEs also record severity / grade and likelihood of attribution to treatment.
+
+## Summary table challenges
+
+```{r, echo=FALSE}
+df_adverse_events |> 
+  select(patient_id:drug_attribution) |> 
+  slice(1:5) |> 
+  gt::gt()
+```
+
+-   Subjects experience multiple adverse events.
+
+-   Not all enrolled subjects experience an adverse event.
+
+-   The percent of subjects experiencing specific AEs is of interest; typically AEs are counted by maximum grade per event per subject.
+
+-   Multiple AE tables are often required (treatment emergent AEs, AEs on specific treatment cycles, serious AEs, etc.).
+
+## Counting by maximum grade
+
+<br>
+
+```{r, echo=FALSE}
+df_adverse_events |> 
+  select(patient_id, system_organ_class, adverse_event, grade) |> 
+  slice(1:5) |>
+  gt::gt() 
+```
+
+## Counting by maximum grade {transition="fade" visibility="uncounted"}
+
+<br>
+
+```{r, echo=FALSE}
+df_adverse_events |> 
+  select(patient_id, system_organ_class, adverse_event, grade) |> 
+  mutate(ae_label = case_when(
+    adverse_event == "Anaemia" ~ "Term 1",
+    adverse_event == "Increased tendency to bruise" ~ "Term 2",
+    adverse_event == "Thrombocytopenia" ~ "Term 3"
+  )) |> 
+  slice(1:5) |>
+  tbl_listing(group_by = ae_label) |> 
+  bold_labels()
+```
+
+## Counting by maximum grade {transition="fade" visibility="uncounted"}
+
+<br>
+
+```{r, echo=FALSE}
+df_adverse_events |> 
+  select(patient_id, system_organ_class, adverse_event, grade) |> 
+  mutate(ae_label = case_when(
+    adverse_event == "Anaemia" ~ "Term 1",
+    adverse_event == "Increased tendency to bruise" ~ "Term 2",
+    adverse_event == "Thrombocytopenia" ~ "Term 3"
+  )) |> 
+  slice(1:5) |>
+  tbl_listing(group_by = ae_label) |> 
+  bold_labels() |> 
+  as_gt() |> 
+  gt::tab_style(
+    style = list(
+      cell_fill(color = "#FFFBC8")
+      ),
+    locations = cells_body(rows = c(2, 4, 8))
+  )
+```
+
+. . .
+
+<br>
+
+Similar logic applies when counting by severity (e.g. mild, moderate, severe) - if stored as a factor, the highest factor level is retained (severe).

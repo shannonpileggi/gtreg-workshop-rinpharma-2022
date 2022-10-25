@@ -6,6 +6,8 @@
 library(gtsummary)
 library(tidyverse)
 library(countdown)
+library(gtreg)
+library(gt)
 
 knit_print.gtsummary <- function(x, ...) {
   gtsummary::as_gt(x) |> gt::as_raw_html()

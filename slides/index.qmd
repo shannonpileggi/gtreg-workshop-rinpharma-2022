@@ -19,5 +19,16 @@ cache: true
 
 {{< include 00-setup.qmd >}}
 
+{{< include 01-overview.qmd >}}
 
+{{< include 02-first-ae-table.qmd >}}
 
+{{< include 03-modify-tables.qmd >}}
+
+{{< include 04-other-tables.qmd >}}
+
+{{< include 05-table-shells.qmd >}}
+
+{{< include 06-export.qmd >}}
+
+{{< include 07-thank-you.qmd >}}

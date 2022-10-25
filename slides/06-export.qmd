@@ -1,0 +1,155 @@
+# Exporting options
+
+## Exporting options
+
+<https://shannonpileggi.github.io/gtreg/articles/output-gtreg.html>
+
+![](images/gtreg_overview_export.svg)
+
+## Exporting options
+
+::: panel-tabset
+
+### html
+
+::: columns
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| eval: true
+table1 <- df_adverse_events |> 
+  tbl_ae(
+    id = patient_id,
+    id_df = df_patient_characteristics,
+    ae = adverse_event,
+    soc = system_organ_class, 
+    by = grade
+  ) |> 
+  modify_header(
+    all_ae_cols() ~ "**Grade {by}**"
+    ) %>%
+  bold_labels()
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| eval: true
+table1
+```
+
+:::
+
+:::
+
+
+
+### word
+
+::: columns
+
+::: {.column width="50%"}
+
+
+```{r}
+#| echo: true
+#| eval: false
+table1 |>  
+  as_flex_table() |> 
+  flextable::save_as_docx(
+    path = here::here("ae_table.docx")
+    )
+```
+
+
+:::
+
+::: {.column width="50%"}
+
+![](images/out_word.PNG)
+
+:::
+
+:::
+
+
+### excel
+
+::: columns
+
+::: {.column width="50%"}
+
+
+```{r}
+#| echo: true
+#| eval: false
+table1 |>  
+ as_hux_xlsx(
+   file = here::here("ae_table.xlsx")
+   )
+```
+
+:::
+
+::: {.column width="50%"}
+
+![](images/out_excel.PNG)
+
+:::
+
+:::
+
+### pdf
+
+::: columns
+
+::: {.column width="50%"}
+
+
+````{verbatim}
+---
+output: pdf_document
+---
+<stuff>  
+  
+```{r}
+table1 |> 
+  as_kable_extra(
+    booktabs = TRUE
+  ) |> 
+  kableExtra::kable_styling(
+    latex_options = "striped",
+    stripe_color = "gray!15"
+  )
+```  
+  
+````
+
+:::
+
+::: {.column width="50%"}
+
+![](images/out_pdf.PNG)
+
+:::
+
+:::
+
+
+:::
+
+
+## Exercise 6
+
+Instructions
+
+```{r}
+#| echo: false
+#| cache: false
+countdown(minutes = 5, font_size = "1.5em")
+```
