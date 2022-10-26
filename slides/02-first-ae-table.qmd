@@ -382,7 +382,11 @@ df_patient_characteristics |>
 
 ## Exercise 1
 
-Instructions
+**Recommended:** enter the dedicated RStudio Cloud work space (with packages pre-installed) to complete Exercise 1.
+
+[Click here to enter R in Pharma RStudio Cloud work space for {gtreg}](https://rstudio.cloud/spaces/299322/join?access_code=Vnp96stsVIDLiEJI7AtHAQ4GB1gsptQgnOGb99_N){target="_blank"}
+
+**Otherwise:** Follow along ENTER LINK.
 
 ```{r}
 #| echo: false
