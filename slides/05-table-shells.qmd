@@ -6,11 +6,9 @@
 
 ## Strategy
 
-Table shells are tables with generic `xx` place holders for numeric values.
-
 <https://shannonpileggi.github.io/gtreg/articles/table-shells.html>
 
-Table shells can be generated for any `tbl_` by:
+Table shells can be generated for any `tbl_ae()` and `tbl_reg_summary()` by:
 
 1. Create dummy data or use your own data.
 
@@ -18,6 +16,145 @@ Table shells can be generated for any `tbl_` by:
 
 3. Overwrite the statistic(s) shown to a fixed character string by implementing the
 `style_xxx()` function in the `digits` argument.
+
+. . . 
+
+```{r}
+style_xxx(8:11)
+style_xxx(8:11, width = 4, digits = 1)
+```
+
+
+## Uniform shell for tbl_ae()
+
+::: panel-tabset
+
+### Code
+
+```{r, tbl-ae-modify-header-shell}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "9,10,14"
+df_adverse_events |> 
+  tbl_ae(
+    id = patient_id,
+    id_df = df_patient_characteristics,
+    strata = trt,
+    ae = adverse_event,
+    soc = system_organ_class, 
+    by = grade, 
+    digits = style_xxx,
+    zero_symbol = NULL
+  ) |> 
+ bold_labels() |> 
+ modify_header(all_ae_cols() ~ "**Grade {by}**") %>%
+ modify_spanning_header(all_ae_cols(TRUE, TRUE) ~ "**{strata}**  \nN = xx")
+```
+
+### Table
+
+```{r}
+#| echo: false
+#| eval: true
+<<tbl-ae-modify-header-shell>>
+```
+
+### Data
+
+::: columns
+::: {.column width="65%"}
+`df_adverse_events`
+
+```{r}
+#| echo: false
+df_adverse_events |> 
+  select(patient_id, trt, adverse_event, system_organ_class, grade) |> 
+  slice(1:5) |> 
+  gt::gt()
+```
+:::
+
+::: {.column width="35%"}
+`df_patient_characteristics`
+
+```{r}
+#| echo: false
+df_patient_characteristics |> 
+  select(patient_id, trt) |> 
+  slice(1:5) |> 
+  gt::gt() 
+```
+:::
+:::
+:::
+
+
+
+## Custom shell for tbl_ae()
+
+::: panel-tabset
+
+### Code
+
+```{r, tbl-ae-modify-header-shell-custom}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "9-13,17"
+df_adverse_events |> 
+  tbl_ae(
+    id = patient_id,
+    id_df = df_patient_characteristics,
+    strata = trt,
+    ae = adverse_event,
+    soc = system_organ_class, 
+    by = grade, 
+    digits = list(
+      style_xxx, # style for n
+      function(x) style_xxx(x, width = 4, digits = 1) # style for %
+    ),
+    zero_symbol = NULL
+  ) |> 
+ bold_labels() |> 
+ modify_header(all_ae_cols() ~ "**Grade {by}**") %>%
+ modify_spanning_header(all_ae_cols(TRUE, TRUE) ~ "**{strata}**  \nN = xx")
+```
+
+### Table
+
+```{r}
+#| echo: false
+#| eval: true
+<<tbl-ae-modify-header-shell-custom>>
+```
+
+### Data
+
+::: columns
+::: {.column width="65%"}
+`df_adverse_events`
+
+```{r}
+#| echo: false
+df_adverse_events |> 
+  select(patient_id, trt, adverse_event, system_organ_class, grade) |> 
+  slice(1:5) |> 
+  gt::gt()
+```
+:::
+
+::: {.column width="35%"}
+`df_patient_characteristics`
+
+```{r}
+#| echo: false
+df_patient_characteristics |> 
+  select(patient_id, trt) |> 
+  slice(1:5) |> 
+  gt::gt() 
+```
+:::
+:::
+:::
 
 
 ## Exercise 5
