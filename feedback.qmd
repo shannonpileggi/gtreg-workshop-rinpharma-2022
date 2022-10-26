@@ -1,0 +1,7 @@
+---
+title: "Feedback"
+editor: source
+---
+
+Thank you for attending the {gtreg} workshop! Please complete an anonymous survey to provide the workshop presenters feedback. We appreciate your time and thoughtful
+feedback. ❤️

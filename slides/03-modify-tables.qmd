@@ -14,7 +14,8 @@ See [documentation](https://shannonpileggi.github.io/gtreg/reference/add_overall
 
 ### Code
 
-```{r, tbl-ae-add-overall}
+```{r}
+#| label: tbl_ae_add_overall 
 #| echo: true
 #| eval: false
 #| code-line-numbers: "2,10,11"
@@ -36,7 +37,7 @@ df_adverse_events |>
 ```{r}
 #| echo: false
 #| eval: true
-<<tbl-ae-add-overall>>
+<<tbl_ae_add_overall >>
 ```
 
 ### Data
@@ -84,11 +85,11 @@ Use `modify_header()` and `modify_spanning_header()` with `all_` column selector
 
 ### Code
 
-```{r, tbl-ae-modify-header}
+```{r}
+#| label: tbl_ae_modify_header
 #| echo: true
 #| eval: false
 #| code-line-numbers: "12-17"
-#| 
 df_adverse_events |> 
   tbl_ae(
     id = patient_id,
@@ -113,7 +114,7 @@ df_adverse_events |>
 ```{r}
 #| echo: false
 #| eval: true
-<<tbl-ae-modify-header>>
+<<tbl_ae_modify_header>>
 ```
 
 ### Data

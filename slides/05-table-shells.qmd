@@ -31,7 +31,8 @@ style_xxx(8:11, width = 4, digits = 1)
 
 ### Code
 
-```{r, tbl-ae-modify-header-shell}
+```{r}
+#| label: tbl_ae_modify_header_shell
 #| echo: true
 #| eval: false
 #| code-line-numbers: "9,10,14"
@@ -56,7 +57,7 @@ df_adverse_events |>
 ```{r}
 #| echo: false
 #| eval: true
-<<tbl-ae-modify-header-shell>>
+<<tbl_ae_modify_header_shell>>
 ```
 
 ### Data
@@ -97,6 +98,7 @@ df_patient_characteristics |>
 ### Code
 
 ```{r, tbl-ae-modify-header-shell-custom}
+#| label: tbl_ae_modify_header_shell_custom
 #| echo: true
 #| eval: false
 #| code-line-numbers: "9-13,17"
@@ -124,7 +126,7 @@ df_adverse_events |>
 ```{r}
 #| echo: false
 #| eval: true
-<<tbl-ae-modify-header-shell-custom>>
+<<tbl_ae_modify_header_shell_custom>>
 ```
 
 ### Data

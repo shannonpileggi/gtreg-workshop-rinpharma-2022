@@ -38,7 +38,12 @@ website:
     contents:
      - href: index.qmd
        text: Home
-     - href: materials.qmd
+     - href: slides.qmd
+     - href: exercises.qmd
+       text: Exercises
+     - href: solutions.qmd
+       text: Solutions
+     - href: feedback.qmd
      - href: license.qmd
 
 format:
