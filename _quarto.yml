@@ -10,7 +10,7 @@ website:
   title: "Regulatory tables for clinical research with {gtreg}"
   description: "Homepage for the R in Pharma 2022 Workshop"
   site-url: "https://shannonpileggi.github.io/gtreg-workshop-rinpharma-2022/"
-  favicon: "images/gtreg-logo.png"
+  favicon: "images/rinphma-gtreg.png"
 
   repo-url: https://shannonpileggi/gtreg-workshop-rinpharma-2022
   repo-actions: [edit, issue]
@@ -18,7 +18,7 @@ website:
   open-graph: true
   twitter-card:
     creator: "@PipingHotData"
-    image: "/images/gtreg-logo.png"
+    image: "/images/rinphma-gtreg.png"
 
   page-footer:
     left: "This page is built with ❤️ and [Quarto](https://quarto.org/). Inspired by [@minebocek](https://twitter.com/minebocek) and [@statistishdan](https://github.com/ddsjoberg/clinical-reporting-gtsummary-rmed)."
@@ -27,7 +27,7 @@ website:
 
   sidebar:
     background: "#708090"
-    logo: "images/gtreg-logo.png"
+    logo: "images/rinphma-gtreg.png"
     pinned: true
     align: center
     tools:
@@ -38,11 +38,10 @@ website:
     contents:
      - href: index.qmd
        text: Home
-     - href: slides.qmd
+     - href: slidespage.qmd
+       text: Slides
      - href: exercises.qmd
        text: Exercises
-     - href: solutions.qmd
-       text: Solutions
      - href: feedback.qmd
      - href: license.qmd
 

@@ -1,23 +1,35 @@
 ---
 title: "Introducing {gtreg}: Exercises"
-format: html
+format: 
+  html:
+    code-fold: true
+    code-summary: "Show the code solution"
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo=FALSE)
-```
 
 # Instructions:
 
-**Recommended:** Complete these exercises in the dedicated R in Pharma RStudio Cloud work space, which comes with all packages pre-installed.
+**Recommended:** Complete these exercises in the dedicated R in Pharma RStudio Cloud work space, which comes with 
+
+1. all packages pre-installed, and
+
+2. an Rmarkdown document to fill in.
+
+It may still be helpful to peek here to verify that your tables match the 
+desired output.
 
 [Click here to enter R in Pharma RStudio Cloud work space for {gtreg}](https://rstudio.cloud/spaces/299322/join?access_code=Vnp96stsVIDLiEJI7AtHAQ4GB1gsptQgnOGb99_N){target="_blank"}
 
-**Otherwise:** Follow along this document.
+**Otherwise:** Follow along this document, work on your personal computer, 
+and challenge yourself not to peek at the code solutions until you have completed
+the exercise.
 
 # Packages
 
-```{r packages, message=FALSE, echo=TRUE}
+```{r}
+#| label: packages
+#| message: false
+#| echo: true
+#| code-fold: false
 library(tidyverse)
 library(gtsummary)
 library(gtreg)
@@ -28,7 +40,11 @@ library(admiral.test)  # for ae data
 
 # Output display setting
 
-```{r output-setting, message=FALSE, echo=TRUE}
+```{r}
+#| label: output-setting
+#| message: false
+#| echo: true
+#| code-fold: false
 theme_gtsummary_compact()
 ```
 
@@ -42,7 +58,10 @@ For these exercises we will be using STDM and ADaM datasets from the [{admiral.t
 First, prepare a subject level data set named `subjects` from the `admiral_adsl` data set
 with only the variables `USUBJID`, `ACTARM`, `AGE`, `SEX`, `RACE` and subjects who screen failed removed.
 
-```{r prep-subjects, echo=TRUE}
+```{r}
+#| label: prep-subjects
+#| echo: true
+#| code-fold: false
 dat_subjects <- admiral_adsl %>% 
   filter(ACTARM != "Screen Failure" & ACTARM %in% c("Placebo", "Xanomeline High Dose") ) %>% 
   select(USUBJID, ACTARM, AGE, SEX, RACE) %>% 
@@ -65,7 +84,10 @@ Join actual treatment arm (`ACTARM`) from the `subjects` data frame to the `ae` 
 
 
 
-```{r prep-aes, echo=TRUE}
+```{r}
+#| label: prep-aes
+#| echo: true
+#| code-fold: false
 dat_ae <- admiral_ae %>% 
   select(USUBJID, AESOC, AEDECOD, AESEV, AESER, AEREL, AESTDTC) %>% 
   left_join(dat_subjects %>% select(USUBJID, ACTARM), by = "USUBJID") %>% 
@@ -231,19 +253,22 @@ Export `t2_shell` to either word or excel.
 ```{r export-xlsx, eval=FALSE}
 t2_shell %>%  
  as_hux_xlsx(
-   file = "exercises/output/summary_shell.xlsx"
+   file = "output/summary_shell.xlsx"
    )
 ```
 
 ```{r export-word, eval=FALSE}
 t2_shell %>%  
   as_flex_table() %>% 
-  flextable::save_as_docx(path = "exercises/output/summary_shell.docx")
+  flextable::save_as_docx(path = "output/summary_shell.docx")
 ```
 
 # Session info
 
-```{r session-info, eval=FALSE}
+```{r}
+#| label: session-info
+#| eval: true
+#| code-fold: false
 devtools::session_info()
 ```
 
