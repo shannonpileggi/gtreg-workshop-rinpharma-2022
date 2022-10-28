@@ -33,7 +33,7 @@ website:
     align: center
     tools:
       - icon: github
-        href: https://shannonpileggi/gtreg-workshop-rinpharma-2022
+        href: https://github.com/shannonpileggi/gtreg-workshop-rinpharma-2022
         text: GitHub
     style: docked
     contents:
