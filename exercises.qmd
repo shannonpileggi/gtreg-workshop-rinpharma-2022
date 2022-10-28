@@ -121,7 +121,7 @@ Create an adverse event table saved as `t1` that summarizes adverse events.
 
 1. Summarize the adverse events by both treatment arm and severity.
 
-2. Supply `id_df` to ensure the subject denominator correct.
+2. Supply `id_df` to ensure the subject denominator is correct.
 
 ```{r ae-first}
 t1 <- dat_ae %>%
